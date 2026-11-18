@@ -1,0 +1,485 @@
+{
+ "_note": "Generated from data_pack/LTPP_InfoPave_MCP_Tools.xlsx (sheet Tools). The workbook is the source of truth. Tools 43-45 (group 'Data-wide summaries') are additions beyond the workbook: they answer questions about a whole table (counts, distributions, rankings).",
+ "reference_tables": [
+  "CODES",
+  "CODETYPES",
+  "LTPPDD",
+  "LTPPTD",
+  "LDW_PPDB_DD",
+  "LDW_PPDB_TD",
+  "LDW_STANDARD_DATA_RELEASE"
+ ],
+ "tools": [
+  {
+   "number": 1,
+   "group": "Sections",
+   "tool": "search_sections",
+   "what_it_does": "Filter sections by state, region, climate zone, experiment type, GPS/SPS, top layer, functional class, monitoring status and location",
+   "source_tables": [
+    "LDW_DP_GENERAL"
+   ]
+  },
+  {
+   "number": 2,
+   "group": "Sections",
+   "tool": "get_section_profile",
+   "what_it_does": "One section's general facts and which datasets hold data for it",
+   "source_tables": [
+    "LDW_DP_GENERAL"
+   ]
+  },
+  {
+   "number": 3,
+   "group": "Sections",
+   "tool": "summarize_sections_by_group",
+   "what_it_does": "Counts of sections by state, climate, pavement type and similar groupings",
+   "source_tables": [
+    "LDW_DP_GENERAL"
+   ]
+  },
+  {
+   "number": 4,
+   "group": "Materials (ARMAD)",
+   "tool": "get_layer_structure",
+   "what_it_does": "Layer order, type and thickness per section and construction event",
+   "source_tables": [
+    "ANALYSIS_TST_AC",
+    "ANALYSIS_TST_ACT",
+    "ANALYSIS_TST_PCC",
+    "ANALYSIS_TST_PCT",
+    "ANALYSIS_TST_UNBOUND",
+    "ANALYSIS_TST_TR",
+    "ANALYSIS_TST_EF"
+   ]
+  },
+  {
+   "number": 5,
+   "group": "Materials (ARMAD)",
+   "tool": "get_asphalt_properties",
+   "what_it_does": "Binder, gradation, air voids, asphalt content and thermal properties for AC and AC-treated layers",
+   "source_tables": [
+    "ANALYSIS_TST_AC",
+    "ANALYSIS_TST_AC_SUPPORT",
+    "ANALYSIS_TST_ACT",
+    "ANALYSIS_TST_ACT_SUPPORT"
+   ]
+  },
+  {
+   "number": 6,
+   "group": "Materials (ARMAD)",
+   "tool": "get_wma_properties",
+   "what_it_does": "Warm-mix asphalt binder and mix test results",
+   "source_tables": [
+    "ANALYSIS_TST_WMA_BINDER",
+    "ANALYSIS_TST_WMA_BINDER_SUPPORT",
+    "ANALYSIS_TST_WMA_MIX",
+    "ANALYSIS_TST_WMA_MIX_SUPPORT"
+   ]
+  },
+  {
+   "number": 7,
+   "group": "Materials (ARMAD)",
+   "tool": "get_concrete_properties",
+   "what_it_does": "Strength, modulus, thermal expansion, shrinkage and reinforcement details",
+   "source_tables": [
+    "ANALYSIS_TST_PCC",
+    "ANALYSIS_TST_PCC_SUPPORT"
+   ]
+  },
+  {
+   "number": 8,
+   "group": "Materials (ARMAD)",
+   "tool": "get_pcc_treated_layer_properties",
+   "what_it_does": "Material properties for PCC-treated layers",
+   "source_tables": [
+    "ANALYSIS_TST_PCT",
+    "ANALYSIS_TST_PCT_SUPPORT"
+   ]
+  },
+  {
+   "number": 9,
+   "group": "Materials (ARMAD)",
+   "tool": "get_unbound_properties",
+   "what_it_does": "Gradation, Atterberg limits and resilient modulus for unbound layers",
+   "source_tables": [
+    "ANALYSIS_TST_UNBOUND",
+    "ANALYSIS_TST_UNBOUND_SUPPORT"
+   ]
+  },
+  {
+   "number": 10,
+   "group": "Materials (ARMAD)",
+   "tool": "get_interlayer_properties",
+   "what_it_does": "Properties of interlayers and treatment layers",
+   "source_tables": [
+    "ANALYSIS_TST_TR",
+    "ANALYSIS_TST_TR_SUPPORT"
+   ]
+  },
+  {
+   "number": 11,
+   "group": "Materials (ARMAD)",
+   "tool": "get_engineering_fabric_properties",
+   "what_it_does": "Properties of engineering fabric layers",
+   "source_tables": [
+    "ANALYSIS_TST_EF",
+    "ANALYSIS_TST_EF_SUPPORT"
+   ]
+  },
+  {
+   "number": 12,
+   "group": "Materials (ARMAD)",
+   "tool": "get_dynamic_modulus",
+   "what_it_does": "Dynamic modulus by temperature and frequency, labelled lab-measured or predicted",
+   "source_tables": [
+    "ANALYSIS_TST_AC_ESTAR"
+   ]
+  },
+  {
+   "number": 13,
+   "group": "Materials (ARMAD)",
+   "tool": "get_creep_compliance",
+   "what_it_does": "Creep compliance results and their statistics",
+   "source_tables": [
+    "ANALYSIS_TST_AC_CREEP_COMP",
+    "ANALYSIS_TST_AC_CRCOM_SUPPORT"
+   ]
+  },
+  {
+   "number": 14,
+   "group": "Materials (ARMAD)",
+   "tool": "get_property_variability",
+   "what_it_does": "Min, max, median, mean, SD, CV, sample count and variability rating for any material property",
+   "source_tables": [
+    "ANALYSIS_TST_AC_SUPPORT",
+    "ANALYSIS_TST_AC_CRCOM_SUPPORT",
+    "ANALYSIS_TST_ACT_SUPPORT",
+    "ANALYSIS_TST_PCC_SUPPORT",
+    "ANALYSIS_TST_PCT_SUPPORT",
+    "ANALYSIS_TST_UNBOUND_SUPPORT",
+    "ANALYSIS_TST_TR_SUPPORT",
+    "ANALYSIS_TST_EF_SUPPORT",
+    "ANALYSIS_TST_WMA_BINDER_SUPPORT",
+    "ANALYSIS_TST_WMA_MIX_SUPPORT"
+   ]
+  },
+  {
+   "number": 15,
+   "group": "Materials (ARMAD)",
+   "tool": "summarize_material_by_group",
+   "what_it_does": "Group statistics for material properties, e.g. layer thickness for sections in a state",
+   "source_tables": [
+    "ANALYSIS_TST_AC",
+    "ANALYSIS_TST_ACT",
+    "ANALYSIS_TST_PCC",
+    "ANALYSIS_TST_PCT",
+    "ANALYSIS_TST_UNBOUND",
+    "ANALYSIS_TST_TR",
+    "ANALYSIS_TST_EF",
+    "LDW_DP_GENERAL"
+   ]
+  },
+  {
+   "number": 16,
+   "group": "Construction features (ARCFD)",
+   "tool": "get_drainage_features",
+   "what_it_does": "Drainage type, pipe, filter and subdrain details",
+   "source_tables": [
+    "ANALYSIS_DRAINAGE"
+   ]
+  },
+  {
+   "number": 17,
+   "group": "Construction features (ARCFD)",
+   "tool": "get_joint_features",
+   "what_it_does": "Joint spacing, dowels, tie bars and sealant",
+   "source_tables": [
+    "ANALYSIS_JOINT"
+   ]
+  },
+  {
+   "number": 18,
+   "group": "Construction features (ARCFD)",
+   "tool": "get_shoulder_features",
+   "what_it_does": "Shoulder type, width, thickness and condition over time",
+   "source_tables": [
+    "ANALYSIS_SHOULDER"
+   ]
+  },
+  {
+   "number": 19,
+   "group": "Performance (ARPED)",
+   "tool": "get_roughness_history",
+   "what_it_does": "IRI and MRI by visit, with flags",
+   "source_tables": [
+    "ANALYSIS_IRI"
+   ]
+  },
+  {
+   "number": 20,
+   "group": "Performance (ARPED)",
+   "tool": "get_rutting_history",
+   "what_it_does": "Rut depth by survey, with flags",
+   "source_tables": [
+    "ANALYSIS_RUTTING"
+   ]
+  },
+  {
+   "number": 21,
+   "group": "Performance (ARPED)",
+   "tool": "get_cracking_history",
+   "what_it_does": "Cracking and distress; table is picked by pavement type",
+   "source_tables": [
+    "ANALYSIS_DIS_AC",
+    "ANALYSIS_DIS_JPCC",
+    "ANALYSIS_DIS_CRCP"
+   ]
+  },
+  {
+   "number": 22,
+   "group": "Performance (ARPED)",
+   "tool": "get_load_transfer_history",
+   "what_it_does": "Load transfer efficiency",
+   "source_tables": [
+    "ANALYSIS_LTE"
+   ]
+  },
+  {
+   "number": 23,
+   "group": "Performance (ARPED)",
+   "tool": "get_dowel_scan_results",
+   "what_it_does": "MIT joint and dowel scores",
+   "source_tables": [
+    "ANALYSIS_MIT"
+   ]
+  },
+  {
+   "number": 24,
+   "group": "Performance (ARPED)",
+   "tool": "compare_performance_by_group",
+   "what_it_does": "Progression by pavement family, climate and age (e.g. flexible pavements in freeze climates)",
+   "source_tables": [
+    "ANALYSIS_IRI",
+    "ANALYSIS_RUTTING",
+    "ANALYSIS_DIS_AC",
+    "ANALYSIS_DIS_JPCC",
+    "ANALYSIS_DIS_CRCP",
+    "ANALYSIS_LTE",
+    "LDW_DP_GENERAL"
+   ]
+  },
+  {
+   "number": 25,
+   "group": "Climate (ARCLD)",
+   "tool": "get_section_climate_annual",
+   "what_it_does": "Yearly temperature, freeze index, precipitation, humidity, wind and solar for a section",
+   "source_tables": [
+    "MERRA_GRID_SECTION",
+    "MERRA_TEMP_YEAR",
+    "MERRA_PRECIP_YEAR",
+    "MERRA_HUMID_YEAR",
+    "MERRA_WIND_YEAR",
+    "MERRA_SOLAR_YEAR"
+   ]
+  },
+  {
+   "number": 26,
+   "group": "Climate (ARCLD)",
+   "tool": "get_section_climate_monthly",
+   "what_it_does": "The same variables at monthly resolution",
+   "source_tables": [
+    "MERRA_GRID_SECTION",
+    "MERRA_TEMP_MONTH",
+    "MERRA_PRECIP_MONTH",
+    "MERRA_HUMID_MONTH",
+    "MERRA_WIND_MONTH",
+    "MERRA_SOLAR_MONTH"
+   ]
+  },
+  {
+   "number": 27,
+   "group": "Climate (ARCLD)",
+   "tool": "get_binder_temperature_summary",
+   "what_it_does": "Binder-relevant temperature extremes",
+   "source_tables": [
+    "MERRA_GRID_SECTION",
+    "MERRA_BIND_TEMP_SUMMARY"
+   ]
+  },
+  {
+   "number": 28,
+   "group": "Climate (ARCLD)",
+   "tool": "compare_climate_between_groups",
+   "what_it_does": "Compares two section groups on selected climate variables",
+   "source_tables": [
+    "LDW_DP_GENERAL",
+    "MERRA_GRID_SECTION",
+    "MERRA_TEMP_YEAR",
+    "MERRA_PRECIP_YEAR",
+    "MERRA_HUMID_YEAR",
+    "MERRA_WIND_YEAR",
+    "MERRA_SOLAR_YEAR",
+    "MERRA_TEMP_MONTH",
+    "MERRA_PRECIP_MONTH",
+    "MERRA_HUMID_MONTH",
+    "MERRA_WIND_MONTH",
+    "MERRA_SOLAR_MONTH"
+   ]
+  },
+  {
+   "number": 29,
+   "group": "Traffic (ARTRD)",
+   "tool": "get_traffic_summary",
+   "what_it_does": "Representative AADTT, vehicle class mix and ESAL/axle factors",
+   "source_tables": [
+    "TRF_REP"
+   ]
+  },
+  {
+   "number": 30,
+   "group": "Traffic (ARTRD)",
+   "tool": "get_traffic_trend",
+   "what_it_does": "Yearly AADTT and ESAL, with source indicators (measured or estimated)",
+   "source_tables": [
+    "TRF_TREND"
+   ]
+  },
+  {
+   "number": 31,
+   "group": "Traffic (ARTRD)",
+   "tool": "get_truck_volume_parameters",
+   "what_it_does": "Truck volume, class distribution and growth parameters",
+   "source_tables": [
+    "MEPDG_TRUCK_VOL_PARAMETERS"
+   ]
+  },
+  {
+   "number": 32,
+   "group": "Traffic (ARTRD)",
+   "tool": "get_axles_per_truck",
+   "what_it_does": "Single, tandem, tridem and quad axles per truck by vehicle class",
+   "source_tables": [
+    "MEPDG_AXLE_PER_TRUCK"
+   ]
+  },
+  {
+   "number": 33,
+   "group": "Traffic (ARTRD)",
+   "tool": "get_axle_load_distribution",
+   "what_it_does": "Axle load distribution factors by axle group, month and vehicle class",
+   "source_tables": [
+    "MEPDG_AXLE_LOAD_DIST_FACTOR"
+   ]
+  },
+  {
+   "number": 34,
+   "group": "Traffic (ARTRD)",
+   "tool": "get_traffic_adjustment_factors",
+   "what_it_does": "Monthly and hourly traffic adjustment factors",
+   "source_tables": [
+    "TRF_MEPDG_MONTH_ADJ_FACTR",
+    "TRF_MEPDG_HOURLY_DIST"
+   ]
+  },
+  {
+   "number": 35,
+   "group": "Maintenance & rehabilitation (ARMRD)",
+   "tool": "get_treatment_history",
+   "what_it_does": "Treatments and dates for a section",
+   "source_tables": [
+    "ANALYSIS_MNT_RHB_SUMMARY"
+   ]
+  },
+  {
+   "number": 36,
+   "group": "Maintenance & rehabilitation (ARMRD)",
+   "tool": "get_ac_treatment_details",
+   "what_it_does": "Materials and quantities for AC maintenance and rehabilitation",
+   "source_tables": [
+    "ANALYSIS_MNT_RHB_AC_SPOT",
+    "ANALYSIS_MNT_RHB_AC_SURFACE"
+   ]
+  },
+  {
+   "number": 37,
+   "group": "Maintenance & rehabilitation (ARMRD)",
+   "tool": "get_pcc_treatment_details",
+   "what_it_does": "Materials and quantities for PCC maintenance and rehabilitation",
+   "source_tables": [
+    "ANALYSIS_MNT_RHB_PCC_SPOT",
+    "ANALYSIS_MNT_RHB_PCC_SURFACE"
+   ]
+  },
+  {
+   "number": 38,
+   "group": "Maintenance & rehabilitation (ARMRD)",
+   "tool": "get_subdrainage_treatment_details",
+   "what_it_does": "Subdrainage maintenance and rehabilitation details",
+   "source_tables": [
+    "ANALYSIS_MNT_RHB_SUBDRAINAGE"
+   ]
+  },
+  {
+   "number": 39,
+   "group": "Maintenance & rehabilitation (ARMRD)",
+   "tool": "get_performance_around_treatment",
+   "what_it_does": "Before and after performance, using the prior and post intervals",
+   "source_tables": [
+    "ANALYSIS_MNT_RHB_SUMMARY",
+    "ANALYSIS_IRI",
+    "ANALYSIS_RUTTING",
+    "ANALYSIS_DIS_AC",
+    "ANALYSIS_DIS_JPCC",
+    "ANALYSIS_DIS_CRCP",
+    "ANALYSIS_LTE"
+   ]
+  },
+  {
+   "number": 40,
+   "group": "Cross-dataset",
+   "tool": "find_sections_across_datasets",
+   "what_it_does": "Filter on climate, material, traffic, treatment and performance together",
+   "source_tables": [
+    "LDW_DP_GENERAL"
+   ]
+  },
+  {
+   "number": 41,
+   "group": "Cross-dataset",
+   "tool": "compare_treatment_effect_across_groups",
+   "what_it_does": "Flagship memo question: e.g. thick AC in wet-freeze climates, roughness change after an overlay",
+   "source_tables": [
+    "ANALYSIS_MNT_RHB_SUMMARY",
+    "LDW_DP_GENERAL",
+    "ANALYSIS_IRI",
+    "ANALYSIS_RUTTING",
+    "ANALYSIS_DIS_AC",
+    "ANALYSIS_DIS_JPCC",
+    "ANALYSIS_DIS_CRCP",
+    "ANALYSIS_LTE",
+    "ANALYSIS_TST_AC",
+    "ANALYSIS_TST_ACT",
+    "ANALYSIS_TST_PCC",
+    "ANALYSIS_TST_PCT",
+    "ANALYSIS_TST_UNBOUND",
+    "ANALYSIS_TST_TR",
+    "ANALYSIS_TST_EF",
+    "MERRA_GRID_SECTION",
+    "MERRA_TEMP_YEAR",
+    "MERRA_PRECIP_YEAR",
+    "MERRA_HUMID_YEAR",
+    "MERRA_WIND_YEAR",
+    "MERRA_SOLAR_YEAR"
+   ]
+  },
+  {
+   "number": 42,
+   "group": "Cross-dataset",
+   "tool": "get_section_report",
+   "what_it_does": "One-call summary of everything known about a section",
+   "source_tables": [
+    "LDW_DP_GENERAL"
+   ]
+  }
+ ]
+}

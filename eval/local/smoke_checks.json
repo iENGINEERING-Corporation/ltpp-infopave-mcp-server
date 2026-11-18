@@ -1,0 +1,1435 @@
+[
+ {
+  "id": "find_ohio_sps_wet_freeze",
+  "question": "Which Ohio SPS test sections are in a wet-freeze climate?",
+  "expected_tools": [
+   "search_sections"
+  ],
+  "smoke": {
+   "tool": "search_sections",
+   "args": {
+    "state": "OH",
+    "gps_sps": "SPS",
+    "climate_zone": "wet-freeze",
+    "limit": 3
+   },
+   "assert": [
+    {
+     "path": "data_release",
+     "op": "contains",
+     "value": "SDR"
+    },
+    {
+     "path": "sources",
+     "op": "contains",
+     "value": "Test section inventory"
+    },
+    {
+     "path": "total_count",
+     "op": ">=",
+     "value": 1
+    },
+    {
+     "path": "data.0.state",
+     "op": "==",
+     "value": "Ohio"
+    },
+    {
+     "path": "data.0.gps_sps",
+     "op": "==",
+     "value": "SPS"
+    }
+   ]
+  }
+ },
+ {
+  "id": "section_profile",
+  "question": "Tell me about Ohio section 0207: what is it and what data exists for it?",
+  "expected_tools": [
+   "get_section_profile"
+  ],
+  "smoke": {
+   "tool": "get_section_profile",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0207"
+   },
+   "assert": [
+    {
+     "path": "data.profile.identification.ldw_section_id",
+     "op": "==",
+     "value": 373
+    },
+    {
+     "path": "data.profile.experiment.all_section_expirement",
+     "op": "==",
+     "value": "SPS-2"
+    },
+    {
+     "path": "data.datasets.Performance",
+     "op": "len>=",
+     "value": 3
+    }
+   ]
+  }
+ },
+ {
+  "id": "sections_by_climate",
+  "question": "How many LTPP test sections are there in each climate zone?",
+  "expected_tools": [
+   "summarize_sections_by_group"
+  ],
+  "answer_must_mention": [
+   "1,171"
+  ],
+  "smoke": {
+   "tool": "summarize_sections_by_group",
+   "args": {
+    "group_by": "climate_zone"
+   },
+   "assert": [
+    {
+     "path": "data.groups",
+     "op": "len>=",
+     "value": 3
+    },
+    {
+     "path": "data.totals.sections",
+     "op": ">=",
+     "value": 1
+    }
+   ]
+  },
+  "full_pack_assert": [
+   {
+    "path": "data.totals.sections",
+    "op": "==",
+    "value": 2581
+   },
+   {
+    "path": "data.groups.0.sections",
+    "op": "==",
+    "value": 1171
+   }
+  ]
+ },
+ {
+  "id": "layer_structure",
+  "question": "What is the original layer structure of Ohio section 0101?",
+  "expected_tools": [
+   "get_layer_structure"
+  ],
+  "smoke": {
+   "tool": "get_layer_structure",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0101",
+    "construction_no": 1
+   },
+   "assert": [
+    {
+     "path": "data.construction_events.0.layer_count",
+     "op": ">=",
+     "value": 3
+    },
+    {
+     "path": "data.construction_events.0.total_thickness",
+     "op": "==",
+     "value": 15.0
+    },
+    {
+     "path": "data.fields.layer_type.codes.AC",
+     "op": "exists"
+    }
+   ]
+  }
+ },
+ {
+  "id": "asphalt_properties",
+  "question": "What are the asphalt properties, such as air voids and gradation, of Ohio section 0101's first construction?",
+  "expected_tools": [
+   "get_asphalt_properties"
+  ],
+  "smoke": {
+   "tool": "get_asphalt_properties",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0101",
+    "construction_no": 1
+   },
+   "assert": [
+    {
+     "path": "data.layers",
+     "op": "len>=",
+     "value": 2
+    },
+    {
+     "path": "data.layers.0.properties.volumetrics.air_voids_avg_wp",
+     "op": "==",
+     "value": 11.54
+    },
+    {
+     "path": "caveats",
+     "op": "contains",
+     "value": "representative"
+    }
+   ]
+  }
+ },
+ {
+  "id": "wma_properties",
+  "question": "Does Arizona section AA01 have warm-mix asphalt test data, and what does it show?",
+  "expected_tools": [
+   "get_wma_properties"
+  ],
+  "smoke": {
+   "tool": "get_wma_properties",
+   "args": {
+    "state": "AZ",
+    "shrp_id": "AA01"
+   },
+   "assert": [
+    {
+     "path": "data.wma_binder",
+     "op": "len>=",
+     "value": 1
+    },
+    {
+     "path": "data.wma_binder.0.high_grade",
+     "op": "==",
+     "value": 81
+    },
+    {
+     "path": "data.wma_mix",
+     "op": "len>=",
+     "value": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "concrete_properties",
+  "question": "What is the compressive strength of the concrete layer in Ohio section 0207?",
+  "expected_tools": [
+   "get_concrete_properties"
+  ],
+  "smoke": {
+   "tool": "get_concrete_properties",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0207",
+    "construction_no": 1
+   },
+   "assert": [
+    {
+     "path": "data.layers.0.properties.strength_and_modulus.comp_strength",
+     "op": "==",
+     "value": 5098
+    }
+   ]
+  }
+ },
+ {
+  "id": "pcc_treated_properties",
+  "question": "What are the properties of the cement-treated base layers in Ohio section 0207?",
+  "expected_tools": [
+   "get_pcc_treated_layer_properties"
+  ],
+  "smoke": {
+   "tool": "get_pcc_treated_layer_properties",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0207"
+   },
+   "assert": [
+    {
+     "path": "data.layers",
+     "op": "len>=",
+     "value": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "unbound_properties",
+  "question": "What is the grading and resilient modulus of the granular base in Ohio section 0101?",
+  "expected_tools": [
+   "get_unbound_properties"
+  ],
+  "smoke": {
+   "tool": "get_unbound_properties",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0101",
+    "construction_no": 1
+   },
+   "assert": [
+    {
+     "path": "data.layers.0.layer_type",
+     "op": "==",
+     "value": "GB"
+    },
+    {
+     "path": "data.layers.0.properties.gradation.no_200_passing",
+     "op": "==",
+     "value": 8.5
+    }
+   ]
+  }
+ },
+ {
+  "id": "interlayer_properties",
+  "question": "What interlayers or treatment layers does Texas section 1092 have?",
+  "expected_tools": [
+   "get_interlayer_properties"
+  ],
+  "smoke": {
+   "tool": "get_interlayer_properties",
+   "args": {
+    "state": "TX",
+    "shrp_id": "1092"
+   },
+   "assert": [
+    {
+     "path": "data.layers",
+     "op": "len>=",
+     "value": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "fabric_properties",
+  "question": "Does Arkansas section 0218 have engineering fabric layers?",
+  "expected_tools": [
+   "get_engineering_fabric_properties"
+  ],
+  "smoke": {
+   "tool": "get_engineering_fabric_properties",
+   "args": {
+    "state": "AR",
+    "shrp_id": "0218"
+   },
+   "assert": [
+    {
+     "path": "data.layers",
+     "op": "len>=",
+     "value": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "dynamic_modulus",
+  "question": "Show laboratory-measured dynamic modulus results for Oregon section AA59.",
+  "expected_tools": [
+   "get_dynamic_modulus"
+  ],
+  "smoke": {
+   "tool": "get_dynamic_modulus",
+   "args": {
+    "state": "OR",
+    "shrp_id": "AA59",
+    "construction_no": 2,
+    "lab_measured": true,
+    "limit": 3
+   },
+   "assert": [
+    {
+     "path": "total_count",
+     "op": "==",
+     "value": 96
+    },
+    {
+     "path": "data.rows.0.source",
+     "op": "==",
+     "value": "lab-measured"
+    },
+    {
+     "path": "data.fields.temperature.units",
+     "op": "==",
+     "value": "deg C"
+    }
+   ]
+  }
+ },
+ {
+  "id": "creep_compliance",
+  "question": "What is the creep compliance of layer 6 in New Jersey section 1003, and how reliable is it?",
+  "expected_tools": [
+   "get_creep_compliance"
+  ],
+  "smoke": {
+   "tool": "get_creep_compliance",
+   "args": {
+    "state": "NJ",
+    "shrp_id": "1003",
+    "construction_no": 2,
+    "layer_no": 6
+   },
+   "assert": [
+    {
+     "path": "data.creep_compliance",
+     "op": "len>=",
+     "value": 3
+    },
+    {
+     "path": "data.statistics",
+     "op": "len>=",
+     "value": 7
+    }
+   ]
+  }
+ },
+ {
+  "id": "property_variability",
+  "question": "How variable are the air-void measurements in Ohio section 0101, and how good are the source values?",
+  "expected_tools": [
+   "get_property_variability"
+  ],
+  "smoke": {
+   "tool": "get_property_variability",
+   "args": {
+    "material": "asphalt",
+    "state": "OH",
+    "shrp_id": "0101",
+    "construction_no": 1,
+    "property": "AIR_VOIDS",
+    "limit": 3
+   },
+   "assert": [
+    {
+     "path": "total_count",
+     "op": "==",
+     "value": 4
+    },
+    {
+     "path": "data.rows.0.source_quality",
+     "op": "exists"
+    },
+    {
+     "path": "data.fields.source_quality.codes",
+     "op": "exists"
+    }
+   ]
+  }
+ },
+ {
+  "id": "asphalt_thickness_by_climate",
+  "question": "How thick are asphalt layers on average in each climate zone?",
+  "expected_tools": [
+   "summarize_material_by_group"
+  ],
+  "smoke": {
+   "tool": "summarize_material_by_group",
+   "args": {
+    "material": "asphalt",
+    "group_by": "climate_zone"
+   },
+   "assert": [
+    {
+     "path": "data.overall.layers",
+     "op": ">=",
+     "value": 1
+    },
+    {
+     "path": "data.property",
+     "op": "==",
+     "value": "repr_thickness"
+    },
+    {
+     "path": "data.units",
+     "op": "==",
+     "value": "in"
+    }
+   ]
+  },
+  "full_pack_assert": [
+   {
+    "path": "data.overall.layers",
+    "op": "==",
+    "value": 12962
+   },
+   {
+    "path": "data.overall.sections",
+    "op": "==",
+    "value": 1856
+   }
+  ]
+ },
+ {
+  "id": "drainage",
+  "question": "What drainage does Ohio section 0207 have?",
+  "expected_tools": [
+   "get_drainage_features"
+  ],
+  "smoke": {
+   "tool": "get_drainage_features",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0207"
+   },
+   "assert": [
+    {
+     "path": "data.drainage.0.drainage_type",
+     "op": "==",
+     "value": "1"
+    },
+    {
+     "path": "data.fields.drainage_type.codes.1",
+     "op": "==",
+     "value": "No subsurface drainage"
+    }
+   ]
+  }
+ },
+ {
+  "id": "joints",
+  "question": "What are the joint and dowel details of Ohio section 0207?",
+  "expected_tools": [
+   "get_joint_features"
+  ],
+  "smoke": {
+   "tool": "get_joint_features",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0207"
+   },
+   "assert": [
+    {
+     "path": "data.joints",
+     "op": "len>=",
+     "value": 2
+    },
+    {
+     "path": "data.joints.1.dowel_length",
+     "op": "==",
+     "value": 18
+    }
+   ]
+  }
+ },
+ {
+  "id": "shoulders",
+  "question": "How has the shoulder of Ohio section 0207 been surveyed over time?",
+  "expected_tools": [
+   "get_shoulder_features"
+  ],
+  "smoke": {
+   "tool": "get_shoulder_features",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0207",
+    "limit": 2
+   },
+   "assert": [
+    {
+     "path": "total_count",
+     "op": "==",
+     "value": 121
+    },
+    {
+     "path": "data.surveys.0.survey_date",
+     "op": "==",
+     "value": "2016-05-26"
+    }
+   ]
+  }
+ },
+ {
+  "id": "roughness_history",
+  "question": "How has the roughness of Ohio section 0101 changed over its visits?",
+  "expected_tools": [
+   "get_roughness_history"
+  ],
+  "smoke": {
+   "tool": "get_roughness_history",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0101",
+    "limit": 3
+   },
+   "assert": [
+    {
+     "path": "data.summary.observations",
+     "op": "==",
+     "value": 2
+    },
+    {
+     "path": "data.visits.0.visit_no",
+     "op": "==",
+     "value": "39010102"
+    },
+    {
+     "path": "data.visits.0.flags",
+     "op": "==",
+     "value": [
+      "C"
+     ]
+    },
+    {
+     "path": "caveats",
+     "op": "contains",
+     "value": "potential anomaly"
+    }
+   ]
+  }
+ },
+ {
+  "id": "rutting_history",
+  "question": "What rut depths were measured on Ohio section 0101?",
+  "expected_tools": [
+   "get_rutting_history"
+  ],
+  "smoke": {
+   "tool": "get_rutting_history",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0101",
+    "limit": 3
+   },
+   "assert": [
+    {
+     "path": "data.surveys",
+     "op": "len>=",
+     "value": 2
+    },
+    {
+     "path": "data.summary.latest.value",
+     "op": "==",
+     "value": 13.0
+    },
+    {
+     "path": "data.fields.max_mean_depth_1_8.units",
+     "op": "==",
+     "value": "mm"
+    }
+   ]
+  }
+ },
+ {
+  "id": "cracking_history",
+  "question": "How has cracking progressed on Ohio section 0207?",
+  "expected_tools": [
+   "get_cracking_history"
+  ],
+  "smoke": {
+   "tool": "get_cracking_history",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0207"
+   },
+   "assert": [
+    {
+     "path": "data.distress.jointed_concrete.total_surveys",
+     "op": "==",
+     "value": 11
+    },
+    {
+     "path": "data.distress.jointed_concrete.trend.change_per_year",
+     "op": "==",
+     "value": 0.5979
+    }
+   ]
+  }
+ },
+ {
+  "id": "load_transfer",
+  "question": "How has load transfer efficiency changed on Ohio section 0207?",
+  "expected_tools": [
+   "get_load_transfer_history"
+  ],
+  "smoke": {
+   "tool": "get_load_transfer_history",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0207",
+    "limit": 3
+   },
+   "assert": [
+    {
+     "path": "total_count",
+     "op": "==",
+     "value": 10
+    },
+    {
+     "path": "data.summary.first.value",
+     "op": "==",
+     "value": 92.775
+    },
+    {
+     "path": "data.tests.0.drops",
+     "op": ">=",
+     "value": 100
+    }
+   ]
+  }
+ },
+ {
+  "id": "dowel_scans",
+  "question": "What did the dowel scans of Arkansas section 0218 find?",
+  "expected_tools": [
+   "get_dowel_scan_results"
+  ],
+  "smoke": {
+   "tool": "get_dowel_scan_results",
+   "args": {
+    "state": "AR",
+    "shrp_id": "0218",
+    "level": "scan"
+   },
+   "assert": [
+    {
+     "path": "data.rows",
+     "op": "len>=",
+     "value": 1
+    },
+    {
+     "path": "data.rows.0.joints",
+     "op": ">=",
+     "value": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "compare_performance",
+  "question": "How does roughness progress with age for flexible, composite and rigid pavements?",
+  "expected_tools": [
+   "compare_performance_by_group"
+  ],
+  "smoke": {
+   "tool": "compare_performance_by_group",
+   "args": {
+    "measure": "iri",
+    "group_by": "pavement_class",
+    "age_bin_years": 10
+   },
+   "assert": [
+    {
+     "path": "data.overall.observations",
+     "op": ">=",
+     "value": 1
+    },
+    {
+     "path": "data.rows",
+     "op": "len>=",
+     "value": 2
+    },
+    {
+     "path": "data.units",
+     "op": "==",
+     "value": "m/km"
+    }
+   ]
+  }
+ },
+ {
+  "id": "climate_annual",
+  "question": "What is the yearly climate at Ohio section 0101?",
+  "expected_tools": [
+   "get_section_climate_annual"
+  ],
+  "smoke": {
+   "tool": "get_section_climate_annual",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0101",
+    "limit": 2
+   },
+   "assert": [
+    {
+     "path": "data.years_in_period",
+     "op": "==",
+     "value": 46
+    },
+    {
+     "path": "data.grid_cell.merra_id",
+     "op": "==",
+     "value": 144732
+    },
+    {
+     "path": "caveats",
+     "op": "contains",
+     "value": "daily and hourly data are not available"
+    }
+   ]
+  }
+ },
+ {
+  "id": "climate_monthly",
+  "question": "What were the Januarys like at Ohio section 0101?",
+  "expected_tools": [
+   "get_section_climate_monthly"
+  ],
+  "smoke": {
+   "tool": "get_section_climate_monthly",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0101",
+    "month": 1,
+    "limit": 2
+   },
+   "assert": [
+    {
+     "path": "total_count",
+     "op": "==",
+     "value": 46
+    },
+    {
+     "path": "data.rows.0.month",
+     "op": "==",
+     "value": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "binder_temperatures",
+  "question": "What temperature extremes matter for binder selection at Ohio section 0101?",
+  "expected_tools": [
+   "get_binder_temperature_summary"
+  ],
+  "smoke": {
+   "tool": "get_binder_temperature_summary",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0101",
+    "limit": 2
+   },
+   "assert": [
+    {
+     "path": "total_count",
+     "op": "==",
+     "value": 46
+    },
+    {
+     "path": "data.years.0.merra_year",
+     "op": "==",
+     "value": 2025
+    },
+    {
+     "path": "data.period_summary.coldest_air_temp",
+     "op": "exists"
+    }
+   ]
+  }
+ },
+ {
+  "id": "compare_climates",
+  "question": "How do wet-freeze and dry-no-freeze climates differ in temperature, freezing index and rainfall?",
+  "expected_tools": [
+   "compare_climate_between_groups"
+  ],
+  "smoke": {
+   "tool": "compare_climate_between_groups",
+   "args": {
+    "group_a": {
+     "label": "Wet-freeze",
+     "climate_zone": "wet-freeze"
+    },
+    "group_b": {
+     "label": "Dry no-freeze",
+     "climate_zone": "dry-no-freeze"
+    }
+   },
+   "assert": [
+    {
+     "path": "data.comparison",
+     "op": "len>=",
+     "value": 4
+    },
+    {
+     "path": "data.comparison.0.variable",
+     "op": "==",
+     "value": "air_temperature_avg"
+    },
+    {
+     "path": "data.comparison.0.difference_a_minus_b",
+     "op": "<",
+     "value": 0
+    }
+   ]
+  },
+  "full_pack_assert": [
+   {
+    "path": "data.comparison.0.groups.Wet-freeze.sections",
+    "op": "==",
+    "value": 1171
+   },
+   {
+    "path": "data.comparison.0.groups.Dry no-freeze.sections",
+    "op": "==",
+    "value": 332
+   }
+  ]
+ },
+ {
+  "id": "traffic_summary",
+  "question": "How much truck traffic does Ohio section 0101 carry and what is the vehicle mix?",
+  "expected_tools": [
+   "get_traffic_summary"
+  ],
+  "answer_must_mention": [
+   "1,578"
+  ],
+  "smoke": {
+   "tool": "get_traffic_summary",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0101"
+   },
+   "assert": [
+    {
+     "path": "data.representative_traffic.0.aadtt",
+     "op": "==",
+     "value": 1578
+    },
+    {
+     "path": "data.representative_traffic.0.vehicle_class_percent.9",
+     "op": "==",
+     "value": 70.47
+    }
+   ]
+  }
+ },
+ {
+  "id": "traffic_trend",
+  "question": "How did annual truck traffic and ESALs change on Ohio section 0101, and which years are estimates?",
+  "expected_tools": [
+   "get_traffic_trend"
+  ],
+  "smoke": {
+   "tool": "get_traffic_trend",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0101",
+    "limit": 3
+   },
+   "assert": [
+    {
+     "path": "data.summary.years",
+     "op": "==",
+     "value": 4
+    },
+    {
+     "path": "data.years.0.aadtt_basis",
+     "op": "exists"
+    },
+    {
+     "path": "data.fields.aadtt_source.codes",
+     "op": "exists"
+    }
+   ]
+  }
+ },
+ {
+  "id": "truck_volume",
+  "question": "What truck-volume growth parameters does Alabama section 0161 have?",
+  "expected_tools": [
+   "get_truck_volume_parameters"
+  ],
+  "smoke": {
+   "tool": "get_truck_volume_parameters",
+   "args": {
+    "state": "AL",
+    "shrp_id": "0161"
+   },
+   "assert": [
+    {
+     "path": "data.parameters",
+     "op": "len>=",
+     "value": 10
+    },
+    {
+     "path": "data.parameters.0.veh_class_growth_function",
+     "op": "==",
+     "value": "compound"
+    }
+   ]
+  }
+ },
+ {
+  "id": "axles_per_truck",
+  "question": "How many axles per truck of each type are assumed for Alabama section 0161?",
+  "expected_tools": [
+   "get_axles_per_truck"
+  ],
+  "smoke": {
+   "tool": "get_axles_per_truck",
+   "args": {
+    "state": "AL",
+    "shrp_id": "0161",
+    "vehicle_class": 9
+   },
+   "assert": [
+    {
+     "path": "data.axles_per_truck.0.tandem_axles",
+     "op": "==",
+     "value": 1.94
+    },
+    {
+     "path": "data.axles_per_truck.0.single_axles",
+     "op": "==",
+     "value": 1.12
+    }
+   ]
+  }
+ },
+ {
+  "id": "axle_loads",
+  "question": "What is the single-axle load distribution for class 9 trucks in June at Alabama section 0161?",
+  "expected_tools": [
+   "get_axle_load_distribution"
+  ],
+  "smoke": {
+   "tool": "get_axle_load_distribution",
+   "args": {
+    "state": "AL",
+    "shrp_id": "0161",
+    "axle_group": "single",
+    "month": 6,
+    "vehicle_class": 9
+   },
+   "assert": [
+    {
+     "path": "total_count",
+     "op": "==",
+     "value": 1
+    },
+    {
+     "path": "data.rows.0.load_group_pct",
+     "op": "len>=",
+     "value": 39
+    },
+    {
+     "path": "data.rows.0.total",
+     "op": "==",
+     "value": 100
+    }
+   ]
+  }
+ },
+ {
+  "id": "traffic_adjustments",
+  "question": "What are the hourly traffic distribution factors for Wisconsin section 0100?",
+  "expected_tools": [
+   "get_traffic_adjustment_factors"
+  ],
+  "smoke": {
+   "tool": "get_traffic_adjustment_factors",
+   "args": {
+    "state": "WI",
+    "shrp_id": "0100",
+    "kind": "hourly",
+    "limit": 5
+   },
+   "assert": [
+    {
+     "path": "data.hourly",
+     "op": "len>=",
+     "value": 5
+    },
+    {
+     "path": "total_count",
+     "op": ">=",
+     "value": 24
+    }
+   ]
+  }
+ },
+ {
+  "id": "traffic_adjustments_project_site",
+  "question": "What are the hourly traffic factors for Arkansas section 0218?",
+  "expected_tools": [
+   "get_traffic_adjustment_factors"
+  ],
+  "smoke": {
+   "tool": "get_traffic_adjustment_factors",
+   "args": {
+    "state": "AR",
+    "shrp_id": "0218",
+    "kind": "hourly",
+    "limit": 5
+   },
+   "assert": [
+    {
+     "path": "data.site_note",
+     "op": "contains",
+     "value": "SPS project site 0200"
+    },
+    {
+     "path": "data.hourly",
+     "op": "len>=",
+     "value": 5
+    },
+    {
+     "path": "caveats",
+     "op": "contains",
+     "value": "SPS project site 0200"
+    }
+   ]
+  }
+ },
+ {
+  "id": "treatment_history",
+  "question": "What maintenance and rehabilitation has Ohio section 0207 had?",
+  "expected_tools": [
+   "get_treatment_history"
+  ],
+  "smoke": {
+   "tool": "get_treatment_history",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0207"
+   },
+   "assert": [
+    {
+     "path": "total_count",
+     "op": "==",
+     "value": 6
+    },
+    {
+     "path": "data.treatments.0.treatment",
+     "op": "exists"
+    },
+    {
+     "path": "data.treatments.0.treatment_type",
+     "op": "exists"
+    }
+   ]
+  }
+ },
+ {
+  "id": "ac_treatment_details",
+  "question": "What asphalt maintenance materials and quantities were used on Arizona section 1002?",
+  "expected_tools": [
+   "get_ac_treatment_details"
+  ],
+  "smoke": {
+   "tool": "get_ac_treatment_details",
+   "args": {
+    "state": "AZ",
+    "shrp_id": "1002"
+   },
+   "assert": [
+    {
+     "path": "data.surface",
+     "op": "len>=",
+     "value": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "pcc_treatment_details",
+  "question": "What concrete patching was done on Ohio section 0207?",
+  "expected_tools": [
+   "get_pcc_treatment_details"
+  ],
+  "smoke": {
+   "tool": "get_pcc_treatment_details",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0207"
+   },
+   "assert": [
+    {
+     "path": "data.spot",
+     "op": "len>=",
+     "value": 4
+    }
+   ]
+  }
+ },
+ {
+  "id": "subdrainage_treatment",
+  "question": "What subdrainage rehabilitation was done on Arizona section 0666?",
+  "expected_tools": [
+   "get_subdrainage_treatment_details"
+  ],
+  "smoke": {
+   "tool": "get_subdrainage_treatment_details",
+   "args": {
+    "state": "AZ",
+    "shrp_id": "0666"
+   },
+   "assert": [
+    {
+     "path": "data.subdrainage",
+     "op": "len>=",
+     "value": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "performance_around_overlay",
+  "question": "How did roughness change when Iowa section 3009 was overlaid?",
+  "expected_tools": [
+   "get_performance_around_treatment"
+  ],
+  "smoke": {
+   "tool": "get_performance_around_treatment",
+   "args": {
+    "state": "IA",
+    "shrp_id": "3009",
+    "treatment": "overlay",
+    "measures": [
+     "iri"
+    ]
+   },
+   "assert": [
+    {
+     "path": "data.treatments.0.treatment_type",
+     "op": "==",
+     "value": "surface"
+    },
+    {
+     "path": "data.treatments.0.measures.iri.before.value",
+     "op": "==",
+     "value": 2.7392
+    },
+    {
+     "path": "data.treatments.0.measures.iri.after.value",
+     "op": "==",
+     "value": 0.8362
+    },
+    {
+     "path": "caveats",
+     "op": "contains",
+     "value": "observational"
+    }
+   ]
+  }
+ },
+ {
+  "id": "overlay_effect_by_climate",
+  "question": "How much does an overlay change roughness in each climate zone?",
+  "expected_tools": [
+   "compare_treatment_effect_across_groups"
+  ],
+  "smoke": {
+   "tool": "compare_treatment_effect_across_groups",
+   "args": {
+    "measure": "iri",
+    "treatment": "overlay",
+    "group_by": "climate_zone"
+   },
+   "assert": [
+    {
+     "path": "data.groups",
+     "op": "len>=",
+     "value": 1
+    },
+    {
+     "path": "data.groups.0.treatments",
+     "op": ">=",
+     "value": 1
+    },
+    {
+     "path": "data.treatments_included",
+     "op": "len>=",
+     "value": 10
+    },
+    {
+     "path": "caveats",
+     "op": "contains",
+     "value": "observational"
+    }
+   ]
+  }
+ },
+ {
+  "id": "flagship_thick_vs_thin_overlay",
+  "question": "Is the roughness improvement after an overlay different for thick asphalt (over 6 inches) than thin asphalt (3 inches or less) in wet-freeze climates?",
+  "expected_tools": [
+   "compare_treatment_effect_across_groups"
+  ],
+  "answer_must_mention": [
+   "observational"
+  ],
+  "smoke": {
+   "tool": "compare_treatment_effect_across_groups",
+   "args": {
+    "measure": "iri",
+    "treatment": "overlay",
+    "group_a": {
+     "label": "Thick AC",
+     "climate_zone": "wet-freeze",
+     "min_ac_thickness_in": 6
+    },
+    "group_b": {
+     "label": "Thin AC",
+     "climate_zone": "wet-freeze",
+     "max_ac_thickness_in": 3
+    }
+   },
+   "assert": [
+    {
+     "path": "data.groups.Thick AC",
+     "op": "exists"
+    },
+    {
+     "path": "data.groups.Thin AC",
+     "op": "exists"
+    },
+    {
+     "path": "caveats",
+     "op": "contains",
+     "value": "observational"
+    }
+   ]
+  },
+  "full_pack_assert": [
+   {
+    "path": "data.groups.Thick AC.treatments",
+    "op": "==",
+    "value": 99
+   },
+   {
+    "path": "data.groups.Thick AC.mean_change",
+    "op": "==",
+    "value": -0.6167
+   },
+   {
+    "path": "data.groups.Thin AC.treatments",
+    "op": "==",
+    "value": 31
+   },
+   {
+    "path": "data.groups.Thin AC.mean_change",
+    "op": "==",
+    "value": -1.0319
+   },
+   {
+    "path": "data.comparison.difference_in_mean_change_a_minus_b",
+    "op": ">",
+    "value": 0
+   }
+  ]
+ },
+ {
+  "id": "find_across_datasets",
+  "question": "Find wet-freeze sections with a thick asphalt structure that have had an overlay.",
+  "expected_tools": [
+   "find_sections_across_datasets"
+  ],
+  "smoke": {
+   "tool": "find_sections_across_datasets",
+   "args": {
+    "climate_zone": "wet-freeze",
+    "min_ac_thickness_in": 6,
+    "treatment": "overlay",
+    "limit": 3
+   },
+   "assert": [
+    {
+     "path": "total_count",
+     "op": ">=",
+     "value": 1
+    },
+    {
+     "path": "data.sections.0.ac_thickness_in",
+     "op": ">=",
+     "value": 6
+    },
+    {
+     "path": "data.sections.0.matching_treatments",
+     "op": ">=",
+     "value": 1
+    }
+   ]
+  },
+  "full_pack_assert": [
+   {
+    "path": "total_count",
+    "op": "==",
+    "value": 321
+   }
+  ]
+ },
+ {
+  "id": "section_report",
+  "question": "Give me a full report on Ohio section 0207.",
+  "expected_tools": [
+   "get_section_report"
+  ],
+  "smoke": {
+   "tool": "get_section_report",
+   "args": {
+    "state": "OH",
+    "shrp_id": "0207"
+   },
+   "assert": [
+    {
+     "path": "data.latest_structure.construction_no",
+     "op": "==",
+     "value": 4
+    },
+    {
+     "path": "data.roughness.summary.observations",
+     "op": ">=",
+     "value": 1
+    },
+    {
+     "path": "data.maintenance_and_rehabilitation.treatments",
+     "op": "==",
+     "value": 6
+    }
+   ]
+  }
+ },
+ {
+  "id": "chain_memo_overlay",
+  "question": "Write a short memo on whether thick asphalt in wet-freeze climates improves more after an overlay than thin asphalt, using roughness.",
+  "expected_tools": [
+   "compare_treatment_effect_across_groups"
+  ],
+  "answer_must_mention": [
+   "observational"
+  ],
+  "smoke": null
+ },
+ {
+  "id": "chain_section_diagnosis",
+  "question": "Why did Ohio section 0207 develop cracking? Look at its structure, traffic, climate and what was done to it.",
+  "expected_tools": [
+   "get_section_report"
+  ],
+  "expected_any_of": [
+   [
+    "get_layer_structure",
+    "get_traffic_summary",
+    "get_section_climate_annual",
+    "get_treatment_history"
+   ]
+  ],
+  "smoke": null
+ },
+ {
+  "id": "limit_daily_climate",
+  "question": "What was the hourly air temperature at Ohio section 0101 on January 15, 2024?",
+  "expected_any_of": [
+   [
+    "get_section_climate_monthly",
+    "get_section_climate_annual"
+   ]
+  ],
+  "answer_must_mention": [
+   "daily"
+  ],
+  "smoke": null
+ },
+ {
+  "id": "disambiguate_shrp_id",
+  "question": "Show roughness for section 0101.",
+  "expected_any_of": [
+   [
+    "search_sections",
+    "get_roughness_history"
+   ]
+  ],
+  "smoke": null
+ }
+]

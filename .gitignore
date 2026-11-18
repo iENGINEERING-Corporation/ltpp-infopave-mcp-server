@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+build/
+dist/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# The full data pack is several hundred MB and is built or copied in, never committed.
+/data/
+/data_pack_02/
+/eval/local/sample_pack/
+
+# Secrets and eval output
+.env
+*.env
+/eval/local/results/
+src/infopave_mcp/.env
